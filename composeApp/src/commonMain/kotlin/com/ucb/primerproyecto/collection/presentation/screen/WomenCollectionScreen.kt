@@ -1,4 +1,5 @@
-package com.ucb.primerproyecto.collection.presentation.screen
+/*
+* package com.ucb.primerproyecto.collection.presentation.screen
 
 
 import androidx.compose.foundation.Image
@@ -114,4 +115,4 @@ fun WomenCollectionScreen() {
             }
         }
     }
-}
+}*/

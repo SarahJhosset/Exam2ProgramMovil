@@ -1,0 +1,32 @@
+package com.ucb.primerproyecto.github.data.service
+
+import com.ucb.primerproyecto.github.data.datasource.GithubRemoteDataSource
+import com.ucb.primerproyecto.github.data.dto.UserDto
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.get
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
+
+class GithubApiService: GithubRemoteDataSource {
+    private val client= HttpClient {
+        install( ContentNegotiation){
+            json(
+                Json{
+                    prettyPrint=true
+                    isLenient=true
+                    ignoreUnknownKeys=true
+                }
+            )
+        }
+    }
+    override suspend fun getUser(nickname: String): UserDto {
+        val response=client.get("https://api.github.com/users/$nickname")
+        try{
+            return response.body<UserDto>()
+        }catch(e: Exception){
+            throw e
+        }
+    }
+}

@@ -1,57 +1,93 @@
 package com.ucb.primerproyecto.collection.presentation.screen
 
-
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ucb.primerproyecto.collection.presentation.composable.CardView
+import com.ucb.primerproyecto.collection.presentation.composable.CollectionView
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import proyectoucb.composeapp.generated.resources.Res
 import proyectoucb.composeapp.generated.resources.children
-import proyectoucb.composeapp.generated.resources.men
-import proyectoucb.composeapp.generated.resources.shopping_cart
-import proyectoucb.composeapp.generated.resources.women
+import proyectoucb.composeapp.generated.resources.explore
+import proyectoucb.composeapp.generated.resources.icon_cart
 
 @Composable
-fun CollectionScreen() {
+fun CollectionScreen( modifier: Modifier = Modifier) {
+    val scrollState = rememberScrollState()
     Column(
-        modifier = Modifier.padding(20.dp),
+        modifier = modifier.verticalScroll(scrollState).padding(30.dp, 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        Row(
-            modifier = Modifier.background(Color.Blue)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                Text("Explore", fontSize = 14.sp)
-                Text("Collections", fontWeight = FontWeight.Bold)
+                Text(stringResource(Res.string.explore), fontSize = 34.sp)
+                Text("Collections", fontSize = 34.sp, fontWeight = FontWeight.Bold)
             }
-            Image(
+            Icon(
+                painterResource(Res.drawable.icon_cart),
+                contentDescription = null,
                 modifier = Modifier.size(28.dp),
-                painter = painterResource(Res.drawable.shopping_cart),
-                contentDescription = null
             )
         }
-        CardView("Children", Res.drawable.children)
-        CardView("Women", Res.drawable.women)
-        CardView("Men", Res.drawable.men)
+        Box(
+            modifier = Modifier.clip(RoundedCornerShape(16.dp))
+        ) {
+            Image(
+                painterResource(Res.drawable.children),
+                contentDescription = null,
+                modifier = Modifier.size(347.dp, 222.dp)
+
+            )
+            Button(
+                modifier = Modifier.align(
+                    Alignment.BottomCenter
+                ),
+                onClick = {
+
+                }) {
+                Text("Children")
+            }
+        }
+        CollectionView(
+            Res.drawable.children,
+            "Children"
+        ) {
+            print("Click children collection")
+        }
+
+        CollectionView(
+            Res.drawable.children,
+            "Woman"
+        ) {
+            print("Click woman collection")
+        }
+
+        CollectionView(
+            Res.drawable.children,
+            "Men"
+        ) {
+            print("Click men collection")
+        }
 
     }
 }
