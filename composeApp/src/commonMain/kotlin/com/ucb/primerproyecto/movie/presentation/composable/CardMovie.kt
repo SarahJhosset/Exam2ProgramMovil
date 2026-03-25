@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -23,47 +22,49 @@ import coil3.compose.AsyncImage
 import com.ucb.primerproyecto.movie.domain.model.MovieModel
 
 @Composable
-fun CardMovie(model: MovieModel ,onRate: (Int) -> Unit,
-              onClick: () -> Unit) {
-
+fun CardMovie(
+    model: MovieModel ,//datos de la pelicula
+    onRate: (Int) -> Unit,//funcion que se ejecuta cuando el usuario califica
+    onClick: () -> Unit//funcion q se ejecuta cuando el usuario hace click
+) {
     val colors = MaterialTheme.colorScheme
 
     Card(
         modifier = Modifier
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(6.dp)
+            .fillMaxWidth(),//la tarjeta ocupa  el ancho disponible
+        shape = RoundedCornerShape(16.dp),//bordes redondeados
+        elevation = CardDefaults.cardElevation(6.dp)//sombra para dar efecto de tarjeta
     ) {
-        Column {
-
+        Column {//organiza los elementos en vertical
             AsyncImage(
-                model = model.pathUrl,
-                contentDescription = model.title,
-                contentScale = ContentScale.Crop,
+                model = model.pathUrl,//url de la imagen
+                contentDescription = model.title,//descripcion para accesibilidad
+                contentScale = ContentScale.Crop,//recorta las img para que queden bien
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth()//ocupa todo el ancho
                     .aspectRatio(2f / 3f) // formato poster
-                    .clickable{println("click detectado")
-                        onClick()}
+                    .clickable{ onClick()}//al hacer click ejecuta navegacion
             )
 
             Column (
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp)//espacio interno
             ) {
                 Text(
-                    text = model.title,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    text = model.title,//titulo de la pelicula
+                    style = MaterialTheme.typography.bodyMedium,//estilo de texto
+                    fontWeight = FontWeight.SemiBold,//un poco mas grueso
+                    maxLines = 2,//maximo 2 lineas
+                    overflow = TextOverflow.Ellipsis //... si esq el texto es muy largo
                 )
-                Row {
-                    for (i in 1..5) {
+                Row {//contenedor horizontal
+                    for (i in 1..5) {//repite 5 veces
                         Text(
                             text = if (i <= model.rating) "★" else "☆",
-                            fontSize = 24.sp,
+                            // ⭐ Si ya está calificada → estrella llena
+                            // ☆ Si no → estrella vacía
+                            fontSize = 24.sp,//tama;o grande
                             modifier = Modifier.clickable {
-                                onRate(i)
+                                onRate(i)//al hhacer click envia el numero de estrella
                             }
                         )
                     }

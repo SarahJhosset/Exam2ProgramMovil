@@ -1,6 +1,10 @@
 package com.ucb.primerproyecto.navigation
 
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -13,34 +17,39 @@ import com.ucb.primerproyecto.moviedetail.presentation.screen.MovieDetailScreen
 @Composable
 fun AppNavHost() {
 
-
     val navController = rememberNavController()
+    val snackbarHostState = remember { SnackbarHostState() }//agregar para el manejo de errores
 
-    NavHost(navController = navController, startDestination = NavRoute.Movies) {
-        composable<NavRoute.Profile> {
-        }
-        composable<NavRoute.ProfileEdit> {
+    Scaffold(//manejo de errores
+        snackbarHost = { SnackbarHost(snackbarHostState) }
+    ) {
+        NavHost(navController = navController, startDestination = NavRoute.Movies) {
+            composable<NavRoute.Profile> {
+            }
+            composable<NavRoute.ProfileEdit> {
+            }
+            composable<NavRoute.Github> {
+                GithubScreen()
+            }
+            composable<NavRoute.Movies> {
+                MovieScreen(
+                    snackbarHostState = snackbarHostState,//manejo de errores
+                    navController = navController)
+            }
+            composable<NavRoute.MovieDetail> { backStack ->
+                val args = backStack.toRoute<NavRoute.MovieDetail>()
 
-        }
-        composable<NavRoute.Github> {
-            GithubScreen()
-        }
-
-        composable<NavRoute.Movies> {
-            MovieScreen(navController = navController)
-        }
-        composable<NavRoute.MovieDetail> { backStack ->
-
-            val args = backStack.toRoute<NavRoute.MovieDetail>()
-
-            MovieDetailScreen(
-                movie = MovieModel(
-                    title = args.title,
-                    pathUrl = args.image,
-                    description = args.description
+                MovieDetailScreen(
+                    movie = MovieModel(
+                        title = args.title,
+                        pathUrl = args.image,
+                        description = args.description
+                    )
                 )
-            )
-        }
+            }
 
+        }
     }
+
+
 }
