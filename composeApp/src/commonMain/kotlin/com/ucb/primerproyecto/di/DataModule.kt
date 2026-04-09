@@ -1,5 +1,9 @@
 package com.ucb.primerproyecto.di
 
+import com.ucb.primerproyecto.dollar.data.datasource.DollarLocalDataSource
+import com.ucb.primerproyecto.dollar.data.repository.DollarRepositoryImpl
+import com.ucb.primerproyecto.dollar.data.service.DbService
+import com.ucb.primerproyecto.dollar.domain.repository.DollarRepository
 import com.ucb.primerproyecto.github.data.datasource.GithubRemoteDataSource
 import com.ucb.primerproyecto.github.data.repository.GithubRepositoryImpl
 import com.ucb.primerproyecto.github.data.service.GithubApiService
@@ -17,4 +21,7 @@ val dataModule = module {
     singleOf(::GithubRepositoryImpl).bind<GithubRepository>()
     singleOf(::MovieRepositoryImpl).bind<MovieRepository>()
     singleOf(::MovieApiService).bind<MovieRemoteDataSource>()
+
+    singleOf(::DollarRepositoryImpl).bind<DollarRepository>()
+    singleOf(::DbService).bind<DollarLocalDataSource>()
 }

@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.ucb.primerproyecto.dollar.presentation.screen.DollarScreen
 import com.ucb.primerproyecto.github.presentation.screen.GithubScreen
 import com.ucb.primerproyecto.movie.domain.model.MovieModel
 import com.ucb.primerproyecto.movie.presentation.screen.MovieScreen
@@ -23,7 +24,7 @@ fun AppNavHost() {
     Scaffold(//manejo de errores
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) {
-        NavHost(navController = navController, startDestination = NavRoute.Movies) {
+        NavHost(navController = navController, startDestination = NavRoute.Dollar) {
             composable<NavRoute.Profile> {
             }
             composable<NavRoute.ProfileEdit> {
@@ -46,6 +47,10 @@ fun AppNavHost() {
                         description = args.description
                     )
                 )
+            }
+
+            composable<NavRoute.Dollar> {
+                DollarScreen()
             }
 
         }

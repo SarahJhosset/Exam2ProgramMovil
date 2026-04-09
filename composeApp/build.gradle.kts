@@ -8,6 +8,11 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
 
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.androidx.room)
+
+    //alias(libs.plugins.google.gms.google.services)
+
 }
 
 kotlin {
@@ -35,6 +40,9 @@ kotlin {
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
 
+            implementation(libs.androidx.room.sqlite.wrapper)
+
+
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -61,6 +69,9 @@ kotlin {
 
             implementation(libs.coil.compose)
             implementation(libs.coil.network)
+
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
 
         }
         iosMain.dependencies {
@@ -101,5 +112,13 @@ android {
 
 dependencies {
     debugImplementation(libs.compose.uiTooling)
+
+    add("kspAndroid", libs.androidx.room.compiler)
+    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
+    add("kspIosArm64", libs.androidx.room.compiler)
+
 }
 
+room {
+    schemaDirectory("$projectDir/schemas")
+}

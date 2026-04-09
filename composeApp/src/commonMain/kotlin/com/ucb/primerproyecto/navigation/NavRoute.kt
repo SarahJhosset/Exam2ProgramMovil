@@ -22,4 +22,7 @@ sealed class NavRoute {
         val image: String,
         val description: String
     ): NavRoute()
+
+    @Serializable
+    object Dollar: NavRoute()
 }
