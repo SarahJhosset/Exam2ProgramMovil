@@ -42,6 +42,12 @@ kotlin {
 
             implementation(libs.androidx.room.sqlite.wrapper)
 
+            implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation(libs.firebase.config)
+            implementation(libs.firebase.database)
+            implementation(libs.kotlinx.coroutines.play.services)
+
+
 
         }
         commonMain.dependencies {
@@ -111,6 +117,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.firebase.database)
     debugImplementation(libs.compose.uiTooling)
 
     add("kspAndroid", libs.androidx.room.compiler)

@@ -23,6 +23,10 @@ sealed class NavRoute {
         val description: String
     ): NavRoute()
 
+
     @Serializable
     object Dollar: NavRoute()
+
+    @Serializable
+    object Portafolio: NavRoute()
 }
