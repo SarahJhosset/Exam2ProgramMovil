@@ -11,7 +11,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidx.room)
 
-    //alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.gms.google.services)
 
 }
 
