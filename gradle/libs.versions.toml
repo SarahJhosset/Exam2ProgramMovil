@@ -27,6 +27,7 @@ ksp = "2.3.6"
 
 googleGmsGoogleServices = "4.4.4"
 firebaseBom = "34.11.0"
+firebaseMessaging = "25.0.1"
 
 
 [libraries]
@@ -75,7 +76,8 @@ androidx-room-sqlite-wrapper = { module = "androidx.room:room-sqlite-wrapper", v
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database" }
 firebase-config = { group = "com.google.firebase", name = "firebase-config" }
-kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version = "1.10.1" }# Optional SQLite Wrapper available in version 2.8.0 and higher
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version = "1.10.1" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }# Optional SQLite Wrapper available in version 2.8.0 and higher
 
 
 [plugins]

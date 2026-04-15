@@ -3,6 +3,7 @@ package com.ucb.primerproyecto.portafolio.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ucb.primerproyecto.firebase.getToken
 import com.ucb.primerproyecto.portafolio.domain.model.PortafolioModel
 import com.ucb.primerproyecto.portafolio.domain.usecase.SaveDataUseCase
 import com.ucb.primerproyecto.portafolio.presentation.state.Holding
@@ -21,6 +22,7 @@ class PortafolioViewModel(
 
     init {
         loadData()
+        obtenerToken()
     }
 
     fun onEvent(event: PortafolioEvent) {
@@ -68,6 +70,17 @@ class PortafolioViewModel(
         viewModelScope.launch {
             println("🔥 ENVIANDO A FIREBASE...")
             saveDataUseCase.invoke(model)
+        }
+    }
+
+    private fun obtenerToken() {
+        viewModelScope.launch {
+            try {
+                val token = getToken()
+                println("FCM_TOKEN: $token")
+            } catch (e: Exception) {
+                println("ERROR TOKEN: ${e.message}")
+            }
         }
     }
 }

@@ -47,6 +47,7 @@ kotlin {
             implementation(libs.firebase.database)
             implementation(libs.kotlinx.coroutines.play.services)
 
+            implementation(libs.firebase.messaging)
 
 
         }
