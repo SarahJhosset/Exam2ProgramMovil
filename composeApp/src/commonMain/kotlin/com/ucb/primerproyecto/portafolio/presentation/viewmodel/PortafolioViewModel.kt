@@ -6,8 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ucb.primerproyecto.portafolio.domain.repository.RemoteConfigRepository
-import com.ucb.primerproyecto.portafolio.domain.usecase.CheckDepositEnabledUseCase
-import com.ucb.primerproyecto.portafolio.domain.usecase.CheckMaintenanceUseCase
 import com.ucb.primerproyecto.portafolio.domain.usecase.GetPortafolioUseCase
 import com.ucb.primerproyecto.portafolio.presentation.state.PortafolioEffect
 import com.ucb.primerproyecto.portafolio.presentation.state.PortafolioEvent

@@ -22,6 +22,14 @@ fun PortafolioContent(
     state: PortafolioUiState,
     onEvent: (PortafolioEvent) -> Unit
 ) {
+    if (state.isMaintenance) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text("🚧 App en mantenimiento")
+        }
+        return
+    }
     Column(modifier = Modifier.padding(16.dp)) {
 
         Text("Mi Portafolio Cripto", style = MaterialTheme.typography.titleLarge)
