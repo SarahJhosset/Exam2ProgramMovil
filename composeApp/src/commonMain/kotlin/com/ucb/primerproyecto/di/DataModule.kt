@@ -16,8 +16,11 @@ import com.ucb.primerproyecto.movie.data.service.MovieApiService
 import com.ucb.primerproyecto.movie.domain.repository.MovieRepository
 import com.ucb.primerproyecto.portafolio.data.datasource.FirebaseManager
 import com.ucb.primerproyecto.deposit.data.datasource.DepositFirebaseManager
+import com.ucb.primerproyecto.portafolio.data.datasource.remoteconfig.RemoteConfigManager
 import com.ucb.primerproyecto.portafolio.data.repository.PortafolioRepositoryImpl
+import com.ucb.primerproyecto.portafolio.data.repository.RemoteConfigRepositoryImpl
 import com.ucb.primerproyecto.portafolio.domain.repository.PortafolioRepository
+import com.ucb.primerproyecto.portafolio.domain.repository.RemoteConfigRepository
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -34,6 +37,9 @@ val dataModule = module {
 
     singleOf(::PortafolioRepositoryImpl).bind<PortafolioRepository>()
     singleOf(::FirebaseManager)
+
+    singleOf(::RemoteConfigRepositoryImpl).bind<RemoteConfigRepository>()
+    singleOf(::RemoteConfigManager)
 
     singleOf(::DepositRepositoryImpl).bind<DepositRepository>()
     singleOf(::DepositFirebaseManager)

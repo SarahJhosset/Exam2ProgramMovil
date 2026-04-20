@@ -56,11 +56,13 @@ fun PortafolioContent(
         Spacer(modifier = Modifier.height(16.dp))
 
         // ➕ BOTÓN
-        FloatingActionButton(
-            onClick = { onEvent(PortafolioEvent.OnAddClick) },
-            modifier = Modifier.align(Alignment.End)
-        ) {
-            Text("+")
+        if (state.depositEnabled) {
+            FloatingActionButton(
+                onClick = { onEvent(PortafolioEvent.OnAddClick) },
+                modifier = Modifier.align(Alignment.End)
+            ) {
+                Text("+")
+            }
         }
     }
 }

@@ -5,6 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ucb.primerproyecto.portafolio.domain.repository.RemoteConfigRepository
+import com.ucb.primerproyecto.portafolio.domain.usecase.CheckDepositEnabledUseCase
+import com.ucb.primerproyecto.portafolio.domain.usecase.CheckMaintenanceUseCase
 import com.ucb.primerproyecto.portafolio.domain.usecase.GetPortafolioUseCase
 import com.ucb.primerproyecto.portafolio.presentation.state.PortafolioEffect
 import com.ucb.primerproyecto.portafolio.presentation.state.PortafolioEvent
@@ -14,7 +17,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class PortafolioViewModel(
-    private val getPortfolioUseCase: GetPortafolioUseCase
+    private val getPortfolioUseCase: GetPortafolioUseCase,
+    private val remoteConfigRepository: RemoteConfigRepository
 ) : ViewModel() {
 
     var state by mutableStateOf(PortafolioUiState())
@@ -25,11 +29,55 @@ class PortafolioViewModel(
     val effect = _effect.asSharedFlow()
 
     init {
-        loadPortfolio()
+        loadRemoteConfig()
+    }
+
+    // 🚀 1. PRIMERO: cargar Remote Config
+    private fun loadRemoteConfig() {
+
+        state = state.copy(isLoading = true)
+
+        remoteConfigRepository.fetchConfig { success ->
+
+            println("🔥 Remote Config loaded: $success")
+
+            val isMaintenance = remoteConfigRepository.isMaintenanceMode()
+            val depositsEnabled = remoteConfigRepository.isDepositEnabled()
+
+            println("🚧 Maintenance: $isMaintenance")
+            println("💳 Deposits: $depositsEnabled")
+
+            state = state.copy(
+                isMaintenance = isMaintenance,
+                depositEnabled = depositsEnabled
+            )
+
+            // 🚧 2. SI ESTÁ EN MANTENIMIENTO → BLOQUEAR TODO
+            if (isMaintenance) {
+                state = state.copy(
+                    deposits = emptyList(),
+                    totalBalance = 0.0,
+                    isLoading = false
+                )
+                return@fetchConfig
+            }
+
+            // 💳 3. SI TODO OK → CARGAR PORTAFOLIO
+            loadPortfolio(depositsEnabled)
+        }
     }
 
     // 📊 CARGAR DATOS DESDE FIREBASE
-    private fun loadPortfolio() {
+    private fun loadPortfolio(depositsEnabled: Boolean) {
+        // 1. validar config primero
+
+        if (!depositsEnabled) {
+            state = state.copy(
+                deposits = emptyList(),
+                isLoading = false
+            )
+            return
+        }
         getPortfolioUseCase { list ->
 
             val total = list.sumOf { it.amount }
