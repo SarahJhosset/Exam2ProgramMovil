@@ -1,86 +1,67 @@
 package com.ucb.primerproyecto.portafolio.presentation.viewmodel
 
-
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ucb.primerproyecto.firebase.getToken
-import com.ucb.primerproyecto.portafolio.domain.model.PortafolioModel
-import com.ucb.primerproyecto.portafolio.domain.usecase.SaveDataUseCase
-import com.ucb.primerproyecto.portafolio.presentation.state.Holding
+import com.ucb.primerproyecto.portafolio.domain.usecase.GetPortafolioUseCase
+import com.ucb.primerproyecto.portafolio.presentation.state.PortafolioEffect
 import com.ucb.primerproyecto.portafolio.presentation.state.PortafolioEvent
 import com.ucb.primerproyecto.portafolio.presentation.state.PortafolioUiState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class PortafolioViewModel(
-    private val saveDataUseCase: SaveDataUseCase
+    private val getPortfolioUseCase: GetPortafolioUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(PortafolioUiState())
-    val uiState: StateFlow<PortafolioUiState> = _uiState
+    var state by mutableStateOf(PortafolioUiState())
+        private set
+
+    // 🔥 EFFECTS (eventos de una sola vez)
+    private val _effect = MutableSharedFlow<PortafolioEffect>()
+    val effect = _effect.asSharedFlow()
 
     init {
-        loadData()
-        obtenerToken()
+        loadPortfolio()
     }
 
+    // 📊 CARGAR DATOS DESDE FIREBASE
+    private fun loadPortfolio() {
+        getPortfolioUseCase { list ->
+
+            val total = list.sumOf { it.amount }
+
+            state = state.copy(
+                deposits = list,
+                totalBalance = total,
+                isLoading = false
+            )
+        }
+    }
+
+    // 🎯 MANEJO DE EVENTOS
     fun onEvent(event: PortafolioEvent) {
         when (event) {
-            is PortafolioEvent.OnRefresh -> loadData()
 
-            is PortafolioEvent.OnCoinClick -> {
-                println("Click en ${event.coin}")
-            }
-
-            is PortafolioEvent.OnAddClick -> {
-                println("🔥 CLICK DETECTADO")
-                saveSampleData()
+            PortafolioEvent.OnAddClick -> {
+                navigateToDeposit()
             }
         }
     }
 
-    private fun loadData() {
-        _uiState.value = PortafolioUiState(
-            balanceTotal = 32540.80,
-            changePercentage = 4.2,
-            stables = 8500.0,
-            ganancias = 3210.50,
-            holdings = listOf(
-                Holding("BTC", 0.45, 31500.0),
-                Holding("ETH", 2.1, 8400.0),
-                Holding("SOL", 55.0, 7700.0),
-                Holding("LINK", 150.0, 2400.0)
-            )
-        )
-    }
-
-    private fun saveSampleData() {
-
-        val model = PortafolioModel(
-            id = (1..1000).random(), // para probar varios registros
-            totalBalance = 32540.80f,
-            percentIncrese = 4.2f,
-            depositFiat = 8500f,
-            positiveBalance = 3210.5f,
-            holdingModel = null,
-            //timestamp = System.currentTimeMillis() // ✅ simple y sin librerías
-        )
-
+    // 🚀 NAVEGACIÓN
+    private fun navigateToDeposit() {
         viewModelScope.launch {
-            println("🔥 ENVIANDO A FIREBASE...")
-            saveDataUseCase.invoke(model)
-        }
-    }
-
-    private fun obtenerToken() {
-        viewModelScope.launch {
-            try {
-                val token = getToken()
-                println("FCM_TOKEN: $token")
-            } catch (e: Exception) {
-                println("ERROR TOKEN: ${e.message}")
-            }
+            _effect.emit(PortafolioEffect.NavigateToDeposit)
         }
     }
 }
+
+
+//bloquear la aplicacion , remote config
+//bloquear en los sistemas a los clientes qq haccen operaciones cuando no se debe ,
+//el remote config esta diseñado para eso, no solo sirve para android ,  bloquear solo targeta de credito, , o solo puede ser para android
+//leer de la base de datos

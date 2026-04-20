@@ -1,16 +1,10 @@
 package com.ucb.primerproyecto.portafolio.presentation.state
 
+import com.ucb.primerproyecto.deposit.domain.model.DepositModel
+
 data class PortafolioUiState(
-    val balanceTotal: Double = 0.0,
-    val changePercentage: Double = 0.0,
-    val stables: Double = 0.0,
-    val ganancias: Double = 0.0,
-    val holdings: List<Holding> = emptyList(),
-    val isLoading: Boolean = false
+    val totalBalance: Double = 0.0,
+    val deposits: List<DepositModel> = emptyList(),
+    val isLoading: Boolean = true
 )
 
-data class Holding(
-    val name: String,
-    val amount: Double,
-    val price: Double
-)

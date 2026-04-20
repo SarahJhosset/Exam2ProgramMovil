@@ -1,4 +1,11 @@
 package com.ucb.primerproyecto.portafolio.presentation.state
 
-interface PortafolioEffect {
+sealed class PortafolioEffect {
+
+    // 👉 navegar a deposit
+    object NavigateToDeposit : PortafolioEffect()
+
+    // 👉 mostrar error
+    data class ShowError(val message: String) : PortafolioEffect()
+
 }

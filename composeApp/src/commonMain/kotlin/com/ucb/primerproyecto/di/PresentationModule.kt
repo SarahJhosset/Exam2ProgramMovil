@@ -1,4 +1,5 @@
 package com.ucb.primerproyecto.di
+import com.ucb.primerproyecto.deposit.presentation.viewmodel.DepositViewModel
 import com.ucb.primerproyecto.dollar.presentation.viewmodel.DollarViewModel
 import com.ucb.primerproyecto.github.presentation.viewmodel.GitHubViewModel
 import com.ucb.primerproyecto.increment.presentation.viewmodel.IncrementViewModel
@@ -23,4 +24,5 @@ val presentationModule = module {
     viewModelOf(::DollarViewModel)
 
     viewModelOf(::PortafolioViewModel)
+    viewModelOf(::DepositViewModel)
 }

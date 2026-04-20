@@ -49,7 +49,7 @@ kotlin {
 
             implementation(libs.firebase.messaging)
 
-
+            implementation(libs.androidx.work.runtime.ktx)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -119,6 +119,8 @@ android {
 
 dependencies {
     implementation(libs.firebase.database)
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.firebase.config)
     debugImplementation(libs.compose.uiTooling)
 
     add("kspAndroid", libs.androidx.room.compiler)

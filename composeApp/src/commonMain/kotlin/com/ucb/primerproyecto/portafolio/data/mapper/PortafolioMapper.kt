@@ -5,9 +5,6 @@ import com.ucb.primerproyecto.portafolio.data.dto.PortafolioDto
 
 fun PortafolioModel.toDto(): PortafolioDto {
     return PortafolioDto(
-        totalBalance = totalBalance,
-        percentIncrese = percentIncrese,
-        depositFiat = depositFiat,
-        timestamp = timestamp
+        total = total
     )
 }

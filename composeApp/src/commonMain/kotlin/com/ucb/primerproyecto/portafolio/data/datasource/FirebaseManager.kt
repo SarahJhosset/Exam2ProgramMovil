@@ -1,6 +1,9 @@
 package com.ucb.primerproyecto.portafolio.data.datasource
 
-expect class FirebaseManager() {
-    suspend fun saveData(path: String, value: String)
-}
+import com.ucb.primerproyecto.deposit.domain.model.DepositModel
 
+expect class FirebaseManager() {
+
+    fun observeDeposits(onResult: (List<DepositModel>) -> Unit)
+
+}

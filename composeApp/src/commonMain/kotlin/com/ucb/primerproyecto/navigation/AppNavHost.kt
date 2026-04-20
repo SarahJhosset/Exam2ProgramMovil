@@ -9,12 +9,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.ucb.primerproyecto.deposit.presentation.screen.DepositScreen
+import com.ucb.primerproyecto.deposit.presentation.viewmodel.DepositViewModel
 import com.ucb.primerproyecto.portafolio.presentation.screen.PortafolioScreen
 import com.ucb.primerproyecto.dollar.presentation.screen.DollarScreen
 import com.ucb.primerproyecto.github.presentation.screen.GithubScreen
 import com.ucb.primerproyecto.movie.domain.model.MovieModel
 import com.ucb.primerproyecto.movie.presentation.screen.MovieScreen
 import com.ucb.primerproyecto.moviedetail.presentation.screen.MovieDetailScreen
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun AppNavHost() {
@@ -55,7 +58,22 @@ fun AppNavHost() {
             }
 
             composable<NavRoute.Portafolio> {
-                PortafolioScreen()
+
+                PortafolioScreen(
+                    snackbarHostState = snackbarHostState,
+                    viewModel = koinViewModel(),
+                    navController = navController
+                )
+            }
+            composable<NavRoute.Deposit> {
+
+                val viewModel: DepositViewModel = koinViewModel()
+
+                DepositScreen(
+                    snackbarHostState = snackbarHostState,
+                    viewModel = viewModel,
+                    navController = navController
+                )
             }
 
         }

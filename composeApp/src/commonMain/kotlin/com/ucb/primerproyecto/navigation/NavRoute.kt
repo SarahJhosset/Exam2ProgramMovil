@@ -29,4 +29,8 @@ sealed class NavRoute {
 
     @Serializable
     object Portafolio: NavRoute()
+
+    @Serializable
+    object Deposit: NavRoute()
+
 }
