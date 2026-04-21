@@ -7,6 +7,7 @@ data class PortafolioUiState(
     val deposits: List<DepositModel> = emptyList(),
     val isLoading: Boolean = true,
     val depositEnabled: Boolean = true,   // 👈 NUEVO
-    val isMaintenance: Boolean = false     // 👈 OPCIONAL
+    val isMaintenance: Boolean = false,
+    val fcmToken: String = ""
 )
 

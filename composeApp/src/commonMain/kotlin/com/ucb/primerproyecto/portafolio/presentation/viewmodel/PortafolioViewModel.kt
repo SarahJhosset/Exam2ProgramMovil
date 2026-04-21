@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ucb.primerproyecto.firebase.getToken
 import com.ucb.primerproyecto.portafolio.domain.repository.RemoteConfigRepository
 import com.ucb.primerproyecto.portafolio.domain.usecase.GetPortafolioUseCase
 import com.ucb.primerproyecto.portafolio.presentation.state.PortafolioEffect
@@ -28,6 +29,7 @@ class PortafolioViewModel(
 
     init {
         loadRemoteConfig()
+        fetchFcmToken() // Se llama al iniciar el ViewModel
     }
 
     // 🚀 1. PRIMERO: cargar Remote Config
@@ -104,6 +106,20 @@ class PortafolioViewModel(
             _effect.emit(PortafolioEffect.NavigateToDeposit)
         }
     }
+
+    private fun fetchFcmToken() {
+        viewModelScope.launch {
+            try {
+                // Llama a la función expect/actual
+                val token = getToken()
+                state = state.copy(fcmToken = token)
+                println("FCM Token obtenido exitosamente: $token")
+            } catch (e: Exception) {
+                println("Error al obtener el token de FCM: ${e.message}")
+            }
+        }
+    }
+
 }
 
 
