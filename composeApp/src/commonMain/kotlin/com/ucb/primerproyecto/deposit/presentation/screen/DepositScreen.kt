@@ -11,8 +11,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -20,6 +18,12 @@ import com.ucb.primerproyecto.deposit.presentation.state.DepositEffect
 import com.ucb.primerproyecto.deposit.presentation.state.DepositEvent
 import com.ucb.primerproyecto.deposit.presentation.viewmodel.DepositViewModel
 import com.ucb.primerproyecto.navigation.NavRoute
+import org.jetbrains.compose.resources.stringResource
+import proyectoucb.composeapp.generated.resources.Res
+import proyectoucb.composeapp.generated.resources.deposit_amount
+import proyectoucb.composeapp.generated.resources.deposit_save
+import proyectoucb.composeapp.generated.resources.deposit_title
+
 
 @Composable
 fun DepositScreen(
@@ -63,8 +67,7 @@ fun DepositScreen(
             .padding(16.dp)
     ) {
 
-        Text("Añadir Fondos")
-
+        Text(stringResource(Res.string.deposit_title))
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
@@ -72,7 +75,7 @@ fun DepositScreen(
             onValueChange = {
                 viewModel.onEvent(DepositEvent.OnAmountChange(it))
             },
-            label = { Text("Monto") }
+            label = { Text(stringResource(Res.string.deposit_amount)) }
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -82,7 +85,7 @@ fun DepositScreen(
                 viewModel.onEvent(DepositEvent.OnSaveDeposit)
             }
         ) {
-            Text("Guardar")
+            Text(stringResource(Res.string.deposit_save))
         }
     }
 }

@@ -10,6 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ucb.primerproyecto.deposit.domain.model.DepositModel
+import org.jetbrains.compose.resources.stringResource
+import proyectoucb.composeapp.generated.resources.Res
+import proyectoucb.composeapp.generated.resources.deposit_card_title
+import proyectoucb.composeapp.generated.resources.deposit_timestamp
 
 @Composable
 fun DepositCard(deposit: DepositModel) {
@@ -20,7 +24,7 @@ fun DepositCard(deposit: DepositModel) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
 
-            Text("Depósito")
+            Text(stringResource(Res.string.deposit_card_title))
 
             Text(
                 text = "${deposit.amount} ${deposit.currency}",
@@ -28,7 +32,7 @@ fun DepositCard(deposit: DepositModel) {
             )
 
             Text(
-                text = "Timestamp: ${deposit.timestamp}",
+                text = "${stringResource(Res.string.deposit_timestamp)}: ${deposit.timestamp}",
                 style = MaterialTheme.typography.bodySmall
             )
         }

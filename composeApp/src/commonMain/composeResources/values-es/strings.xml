@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Loco xml export: Android strings
+ Project: proyectomovil
+ Locale: es-BO, Spanish (Bolivia)
+ Exported by: shalure lure
+ Exported at: Wed, 22 Apr 2026 16:11:15 -0400
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">ProyectoUCB</string>
+    <string name="explore">Explorar</string>
+    <string name="sign_in_title">Iniciar sesión</string>
+    <string name="sign_in_email">Gmail</string>
+    <string name="sign_in_password">Contraseña</string>
+    <string name="sign_in_btn">Iniciar sesión</string>
+    <string name="login_title">Iniciar sesión</string>
+    <string name="login_email">Dirección de correo electrónico</string>
+    <string name="login_password">Contraseña</string>
+    <string name="login_btn">Iniciar sesión</string>
+    <string name="github_find">Encontrar</string>
+    <string name="github_title">Encuentra tu avatar de Github</string>
+    <string name="github_text_hint">Nombre de usuario de GitHub</string>
+    <!-- Deposit -->
+    <string name="deposit_title">Agregar fondos</string>
+    <string name="deposit_amount">Cantidad</string>
+    <string name="deposit_save">Guardar</string>
+    <!-- Portfolio -->
+    <string name="portfolio_title">Mi portafolio Cripto</string>
+    <string name="portfolio_balance">Balance Total</string>
+    <string name="portfolio_history">Historial de depósitos</string>
+    <string name="portfolio_maintenance">Aplicación en mantenimiento</string>
+    <!-- Card -->
+    <string name="deposit_card_title">Deposito</string>
+    <string name="deposit_timestamp">Tiempo</string>
+</resources>

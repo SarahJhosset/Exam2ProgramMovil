@@ -1,4 +1,13 @@
-<resources>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Loco xml export: Android strings
+ Project: proyectomovil
+ Locale: en-US, English (USA)
+ Exported by: shalure lure
+ Exported at: Wed, 22 Apr 2026 16:11:14 -0400
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">ProyectoUCB</string>
     <string name="explore">Explore</string>
     <string name="sign_in_title">Sign In</string>
     <string name="sign_in_email">Email</string>
@@ -11,4 +20,16 @@
     <string name="github_find">Find</string>
     <string name="github_title">Find your Github Avatar</string>
     <string name="github_text_hint">GitHub username</string>
+    <!-- Deposit -->
+    <string name="deposit_title">Add Funds</string>
+    <string name="deposit_amount">Amount</string>
+    <string name="deposit_save">Save</string>
+    <!-- Portfolio -->
+    <string name="portfolio_title">My Crypto Portfolio</string>
+    <string name="portfolio_balance">Total Balance</string>
+    <string name="portfolio_history">Deposit History</string>
+    <string name="portfolio_maintenance">App under maintenance</string>
+    <!-- Card -->
+    <string name="deposit_card_title">Deposit</string>
+    <string name="deposit_timestamp">Timestamp</string>
 </resources>
