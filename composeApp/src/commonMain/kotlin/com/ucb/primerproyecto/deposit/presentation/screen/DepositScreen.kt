@@ -19,6 +19,7 @@ import com.ucb.primerproyecto.deposit.presentation.state.DepositEvent
 import com.ucb.primerproyecto.deposit.presentation.viewmodel.DepositViewModel
 import com.ucb.primerproyecto.navigation.NavRoute
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import proyectoucb.composeapp.generated.resources.Res
 import proyectoucb.composeapp.generated.resources.deposit_amount
 import proyectoucb.composeapp.generated.resources.deposit_save
@@ -29,7 +30,7 @@ import proyectoucb.composeapp.generated.resources.deposit_title
 fun DepositScreen(
     snackbarHostState: SnackbarHostState,
     navController: NavController,
-    viewModel: DepositViewModel
+    viewModel: DepositViewModel= koinViewModel()
 ) {
 
     val state = viewModel.state

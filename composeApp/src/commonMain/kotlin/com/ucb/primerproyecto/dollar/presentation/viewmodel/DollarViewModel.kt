@@ -30,6 +30,7 @@ class DollarViewModel(
         createUseCase.invoke(DollarModel(dollarOfficial = "7.96", dollarParallel = "10.96"))
         createUseCase.invoke(DollarModel(dollarOfficial = "7", dollarParallel = "10.96"))
         createUseCase.invoke(DollarModel(dollarOfficial = "7.6", dollarParallel = "10.96"))
+        createUseCase.invoke(DollarModel(dollarOfficial = "7.6", dollarParallel = "10.96"))
     }
 
     private fun loadData() {

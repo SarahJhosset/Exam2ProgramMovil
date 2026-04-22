@@ -25,8 +25,6 @@ class LogUploadWorker(
             // - sincronizar Firebase
             // - actualizar datos
 
-            println("✅ Trabajo completado")
-
             getPortafolioUseCase { lista ->
                 println("📦 depósitos recibidos: ${lista.size}")
             }

@@ -8,11 +8,12 @@ import com.ucb.primerproyecto.navigation.NavRoute
 import com.ucb.primerproyecto.portafolio.presentation.composable.PortafolioContent
 import com.ucb.primerproyecto.portafolio.presentation.state.PortafolioEffect
 import com.ucb.primerproyecto.portafolio.presentation.viewmodel.PortafolioViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun PortafolioScreen(
     snackbarHostState: SnackbarHostState,
-    viewModel: PortafolioViewModel,
+    viewModel: PortafolioViewModel= koinViewModel(),
     navController: NavController
 ) {
 
