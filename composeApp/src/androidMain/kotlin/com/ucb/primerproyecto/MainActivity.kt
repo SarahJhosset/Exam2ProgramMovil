@@ -14,13 +14,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            requestPermissions(
+            requestPermissions(//permiso de notificaciones
                 arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
                 100
             )
         }
-        LogScheduler(this).schedule()
-
         setContent {
             App()
         }

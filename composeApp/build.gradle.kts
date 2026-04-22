@@ -48,7 +48,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.play.services)
 
             implementation(libs.firebase.messaging)
-
+            //segundo plano
             implementation(libs.androidx.work.runtime.ktx)
         }
         commonMain.dependencies {

@@ -3,18 +3,41 @@ package com.ucb.primerproyecto.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.ucb.primerproyecto.portafolio.domain.usecase.GetPortafolioUseCase
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+
 
 class LogUploadWorker(
     appContext: Context,
-    workerParams: WorkerParameters
-) : CoroutineWorker(appContext, workerParams) {
+    workerParameters: WorkerParameters
+) : CoroutineWorker(appContext, workerParameters), KoinComponent {
+
+    private val getPortafolioUseCase: GetPortafolioUseCase by inject()
 
     override suspend fun doWork(): Result {
 
-        println("🔥 ejecutando trabajo en background")
+        println("🚀 Ejecutando trabajo en segundo plano")
 
-        // aquí va tu lógica real (API, DB, etc)
+        return try {
+            // 👉 aquí iría tu lógica real:
+            // - enviar logs
+            // - sincronizar Firebase
+            // - actualizar datos
 
-        return Result.success()
+            println("✅ Trabajo completado")
+
+            getPortafolioUseCase { lista ->
+                println("📦 depósitos recibidos: ${lista.size}")
+            }
+
+            println("✅ Trabajo completado")
+
+            Result.success()
+
+        } catch (e: Exception) {
+            println("❌ Error en worker: ${e.message}")
+            Result.retry()
+        }
     }
 }
