@@ -1,5 +1,6 @@
 package com.ucb.primerproyecto.di
 
+import com.ucb.primerproyecto.backup.domain.usecase.BackupUseCase
 import com.ucb.primerproyecto.deposit.domain.usecase.SaveDepositUseCase
 import com.ucb.primerproyecto.dollar.domain.usecase.CreateDollarUseCase
 import com.ucb.primerproyecto.dollar.domain.usecase.GetDollarListUsecase
@@ -8,6 +9,7 @@ import com.ucb.primerproyecto.movie.domain.usecase.GetMoviesUseCase
 import com.ucb.primerproyecto.portafolio.domain.usecase.CheckDepositEnabledUseCase
 import com.ucb.primerproyecto.portafolio.domain.usecase.CheckMaintenanceUseCase
 import com.ucb.primerproyecto.portafolio.domain.usecase.GetPortafolioUseCase
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -25,4 +27,5 @@ val domainModule = module {
 
     singleOf(::SaveDepositUseCase)
 
+    factoryOf(::BackupUseCase)
 }
