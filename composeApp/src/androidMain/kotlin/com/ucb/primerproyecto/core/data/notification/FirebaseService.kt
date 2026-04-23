@@ -8,63 +8,87 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.ucb.primerproyecto.AndroidApp
 import com.ucb.primerproyecto.MainActivity
+import com.ucb.primerproyecto.worker.NotificationTranslationWorker
 
 class FirebaseService : FirebaseMessagingService() {
 
     companion object {
-        private val TAG = FirebaseService::class.java.simpleName
-        private const val CHANNEL_ID = "default_notification_channel"
+        private const val TAG          = "FirebaseService"
+        const val CHANNEL_ID           = "default_notification_channel"
         private const val CHANNEL_NAME = "General Notifications"
+
+        fun showNotification(context: Context, title: String, body: String) {
+            val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channel = NotificationChannel(
+                    CHANNEL_ID, CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
+                manager.createNotificationChannel(channel)
+            }
+
+            val intent = Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+            val pendingIntent = PendingIntent.getActivity(
+                context, 0, intent,
+                PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(android.R.drawable.stat_notify_chat)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .build()
+
+            manager.notify(System.currentTimeMillis().toInt(), notification)
+        }
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        Log.d(TAG, "From: ${remoteMessage.from}")
+        Log.d(TAG, "FCM recibido de: ${remoteMessage.from}")
 
-        // Extract title and body from notification or data payload
-        val title = remoteMessage.notification?.title ?: remoteMessage.data["title"] ?: "Notificación"
-        val body = remoteMessage.notification?.body ?: remoteMessage.data["body"] ?: "Tienes un nuevo mensaje"
+        val data = remoteMessage.data
 
-        showNotification(title, body)
-    }
+        val titleKey = data["title_key"]
+        val bodyKey  = data["body_key"]
 
-    private fun showNotification(title: String, body: String) {
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (titleKey != null && bodyKey != null) {
+            val workRequest = OneTimeWorkRequestBuilder<NotificationTranslationWorker>()
+                .setInputData(
+                    workDataOf(
+                        "title_key"  to titleKey,
+                        "body_key"   to bodyKey,
+                        "locale"     to AndroidApp.currentLocale
+                    )
+                )
+                .build()
 
-        // Create notification channel for Android O and above
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                CHANNEL_ID,
-                CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-            notificationManager.createNotificationChannel(channel)
+            WorkManager.getInstance(applicationContext).enqueue(workRequest)
+        } else {
+            val title = remoteMessage.notification?.title
+                ?: data["title"]
+                ?: "Notificación"
+            val body  = remoteMessage.notification?.body
+                ?: data["body"]
+                ?: "Tienes un mensaje"
+
+            showNotification(this, title, body)
         }
-
-        // Intent to open MainActivity when notification is clicked
-        val intent = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        }
-        val pendingIntent = PendingIntent.getActivity(
-            this, 0, intent,
-            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(android.R.drawable.stat_notify_chat) // Using system icon as fallback
-            .setContentTitle(title)
-            .setContentText(body)
-            .setAutoCancel(true)
-            .setContentIntent(pendingIntent)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-        notificationManager.notify(System.currentTimeMillis().toInt(), notificationBuilder.build())
     }
 
     override fun onNewToken(token: String) {
-        Log.d(TAG, "Refreshed token: $token")
-        // Normally you would send this token to your server
+        Log.d(TAG, "Token FCM renovado: $token")
     }
 }
