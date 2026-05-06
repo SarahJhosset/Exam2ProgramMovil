@@ -33,4 +33,8 @@ sealed class NavRoute {
     @Serializable
     object Deposit: NavRoute()
 
+
+    @Serializable
+    object Debug : NavRoute()
+
 }

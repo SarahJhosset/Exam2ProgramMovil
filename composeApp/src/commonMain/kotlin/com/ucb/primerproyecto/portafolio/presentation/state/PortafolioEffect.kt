@@ -7,5 +7,6 @@ sealed class PortafolioEffect {
 
     // 👉 mostrar error
     data class ShowError(val message: String) : PortafolioEffect()
+    object NavigateToDebug   : PortafolioEffect()   // ← nuevo
 
 }

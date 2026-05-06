@@ -34,8 +34,12 @@ fun PortafolioScreen(
                         withDismissAction = true
                     )
                 }
+                is PortafolioEffect.NavigateToDebug -> {
+                    navController.navigate(NavRoute.Debug)
+                }
             }
         }
+
     }
 
     // 🎨 UI

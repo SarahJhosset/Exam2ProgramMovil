@@ -2,6 +2,7 @@ package com.ucb.primerproyecto.portafolio.presentation.composable
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -16,6 +17,7 @@ import com.ucb.primerproyecto.portafolio.presentation.state.PortafolioEvent
 import com.ucb.primerproyecto.portafolio.presentation.state.PortafolioUiState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.OutlinedButton
 import org.jetbrains.compose.resources.stringResource
 import proyectoucb.composeapp.generated.resources.Res
 import proyectoucb.composeapp.generated.resources.portfolio_balance
@@ -82,6 +84,16 @@ fun PortafolioContent(
                 Text("+")
             }
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedButton(
+            modifier = Modifier.fillMaxWidth(),
+            onClick  = { onEvent(PortafolioEvent.OnDebugClick) }
+        ) {
+            Text("🔧 Panel de diagnóstico")
+        }
+
     }
 }
 

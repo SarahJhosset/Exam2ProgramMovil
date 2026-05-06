@@ -40,7 +40,9 @@ class CacheCleanupWorker(
             dao.insert(DollarEntity(dollarOfficial = "7.50", dollarParallel = "10.50", timestamp = System.currentTimeMillis() - 3000))
             dao.insert(DollarEntity(dollarOfficial = "7.80", dollarParallel = "10.80", timestamp = System.currentTimeMillis() - 2000))
             dao.insert(DollarEntity(dollarOfficial = "8.00", dollarParallel = "11.00", timestamp = System.currentTimeMillis() - 1000))
-            Log.d(TAG, "📝 5 registros de prueba insertados")
+            dao.insert(DollarEntity(dollarOfficial = "7.80", dollarParallel = "10.80", timestamp = System.currentTimeMillis() - 5000))
+            dao.insert(DollarEntity(dollarOfficial = "8.00", dollarParallel = "11.00", timestamp = System.currentTimeMillis() - 3500))
+            Log.d(TAG, "📝 7 registros de prueba insertados")
 
 
             // 1. Leer límite desde Remote Config

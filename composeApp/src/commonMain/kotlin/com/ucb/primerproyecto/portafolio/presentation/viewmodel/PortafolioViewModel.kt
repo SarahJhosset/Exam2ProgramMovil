@@ -97,7 +97,13 @@ class PortafolioViewModel(
             PortafolioEvent.OnAddClick -> {
                 navigateToDeposit()
             }
+            PortafolioEvent.OnDebugClick -> {
+                viewModelScope.launch {
+                    _effect.emit(PortafolioEffect.NavigateToDebug)
+                }
+            }
         }
+
     }
 
     // 🚀 NAVEGACIÓN
