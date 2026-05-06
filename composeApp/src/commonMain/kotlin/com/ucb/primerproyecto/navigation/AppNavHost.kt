@@ -13,10 +13,8 @@ import com.ucb.primerproyecto.deposit.presentation.screen.DepositScreen
 import com.ucb.primerproyecto.deposit.presentation.viewmodel.DepositViewModel
 import com.ucb.primerproyecto.portafolio.presentation.screen.PortafolioScreen
 import com.ucb.primerproyecto.dollar.presentation.screen.DollarScreen
-import com.ucb.primerproyecto.github.presentation.screen.GithubScreen
 import com.ucb.primerproyecto.movie.domain.model.MovieModel
 import com.ucb.primerproyecto.movie.presentation.screen.MovieScreen
-import com.ucb.primerproyecto.moviedetail.presentation.screen.MovieDetailScreen
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -33,24 +31,10 @@ fun AppNavHost() {
             }
             composable<NavRoute.ProfileEdit> {
             }
-            composable<NavRoute.Github> {
-                GithubScreen()
-            }
             composable<NavRoute.Movies> {
                 MovieScreen(
                     snackbarHostState = snackbarHostState,//manejo de errores
                     navController = navController)
-            }
-            composable<NavRoute.MovieDetail> { backStack ->
-                val args = backStack.toRoute<NavRoute.MovieDetail>()
-
-                MovieDetailScreen(
-                    movie = MovieModel(
-                        title = args.title,
-                        pathUrl = args.image,
-                        description = args.description
-                    )
-                )
             }
 
             composable<NavRoute.Dollar> {
