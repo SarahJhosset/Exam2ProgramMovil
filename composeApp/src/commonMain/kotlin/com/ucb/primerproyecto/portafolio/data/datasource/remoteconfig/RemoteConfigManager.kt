@@ -13,4 +13,5 @@ expect class RemoteConfigManager() {
     fun getSyncIntervalMinutes(): Long
 
     fun getMaxLocalRecords(): Long
+
 }

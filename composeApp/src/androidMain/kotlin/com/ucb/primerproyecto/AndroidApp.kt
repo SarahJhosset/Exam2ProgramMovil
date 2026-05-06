@@ -6,6 +6,7 @@ import com.ucb.primerproyecto.di.getModules
 import com.ucb.primerproyecto.portafolio.data.datasource.remoteconfig.RemoteConfigManager
 import com.ucb.primerproyecto.translation.LocalTranslationService
 import com.ucb.primerproyecto.translation.TranslationRepository
+import com.ucb.primerproyecto.worker.DynamicScheduler
 import com.ucb.primerproyecto.worker.DynamicSyncScheduler
 import com.ucb.primerproyecto.worker.LogScheduler
 import org.koin.android.ext.koin.androidContext
@@ -24,7 +25,7 @@ class AndroidApp : Application() {
         LocalTranslationService.load("en", TranslationRepository.getAll("en"))
         LocalTranslationService.load("es", TranslationRepository.getAll("es"))
 
-        currentLocale = deviceLocale
+        AndroidApp.currentLocale = deviceLocale
 
         LogScheduler(this).schedulePeriodicaUpload()
 
@@ -34,6 +35,14 @@ class AndroidApp : Application() {
             modules(getModules())
         }
 
+        val remoteConfig = org.koin.java.KoinJavaComponent
+            .getKoin().get<RemoteConfigManager>()
+
+        DynamicScheduler(this, remoteConfig)
+            .scheduleSyncWithRemoteInterval()
+
+
+        /*
         // Leer intervalo desde Remote Config y programar
         val remoteConfig = RemoteConfigManager()
         remoteConfig.fetchConfig { success ->
@@ -43,7 +52,8 @@ class AndroidApp : Application() {
                 15L // valor por defecto si falla
             }
             DynamicSyncScheduler(this).schedule(interval)
-        }
+         */
+
     }
 
     companion object {

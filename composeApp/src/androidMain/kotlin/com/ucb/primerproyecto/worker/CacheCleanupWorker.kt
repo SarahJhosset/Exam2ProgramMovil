@@ -39,13 +39,7 @@ class CacheCleanupWorker(
             dao.insert(DollarEntity(dollarOfficial = "7.00", dollarParallel = "10.00", timestamp = System.currentTimeMillis() - 4000))
             dao.insert(DollarEntity(dollarOfficial = "7.50", dollarParallel = "10.50", timestamp = System.currentTimeMillis() - 3000))
             dao.insert(DollarEntity(dollarOfficial = "7.80", dollarParallel = "10.80", timestamp = System.currentTimeMillis() - 2000))
-            dao.insert(
-                DollarEntity(
-                    dollarOfficial = "8.00",
-                    dollarParallel = "11.00",
-                    timestamp = System.currentTimeMillis() - 1000
-                )
-            )
+            dao.insert(DollarEntity(dollarOfficial = "8.00", dollarParallel = "11.00", timestamp = System.currentTimeMillis() - 1000))
             Log.d(TAG, "📝 5 registros de prueba insertados")
 
 

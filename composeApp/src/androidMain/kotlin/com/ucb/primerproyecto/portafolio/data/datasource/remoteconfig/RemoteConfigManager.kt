@@ -41,7 +41,7 @@ actual class RemoteConfigManager {
     actual fun getSyncIntervalMinutes(): Long {
         val value = remoteConfig.getLong("sync_interval_minutes")
         println("⏱️ RC sync_interval_minutes = $value")
-        return if (value > 0) value else 15L
+        return if (value > 15) value else 15L
     }
 
     actual fun getMaxLocalRecords(): Long {
