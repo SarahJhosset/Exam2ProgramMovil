@@ -19,4 +19,18 @@ interface DollarDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertDollars(lists: List<DollarEntity>)
+
+    @Query("SELECT COUNT(*) FROM dollars")
+    suspend fun count(): Int
+
+    // Borra los N registros más antiguos (menor timestamp = más antiguo)
+    @Query("""
+    DELETE FROM dollars 
+    WHERE id IN (
+        SELECT id FROM dollars 
+        ORDER BY timestamp ASC 
+        LIMIT :count
+    )
+""")
+    suspend fun deleteOldest(count: Int)
 }

@@ -82,6 +82,7 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database" }
 firebase-config = { group = "com.google.firebase", name = "firebase-config" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version = "1.10.1" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }# Optional SQLite Wrapper available in version 2.8.0 and higher
 
@@ -99,4 +100,3 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 androidx-room = { id = "androidx.room", version.ref = "room" }
 
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
-

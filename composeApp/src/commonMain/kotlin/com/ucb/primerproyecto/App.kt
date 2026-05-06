@@ -8,10 +8,11 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
+import com.ucb.primerproyecto.di.getModules
 import com.ucb.primerproyecto.navigation.AppNavHost
+import org.koin.compose.KoinApplication
 
 @Composable
-@Preview
 fun App() {
     val snackbarHostState = remember { SnackbarHostState() }
     MaterialTheme(
@@ -24,5 +25,17 @@ fun App() {
             AppNavHost()
         }
 
+    }
+}
+
+@Preview
+@Composable
+fun AppPreview() {
+    // We wrap the App in KoinApplication for the Preview to initialize Koin,
+    // resolving the "KoinApplication has not been started" issue.
+    KoinApplication(application = {
+        modules(getModules())
+    }) {
+        App()
     }
 }

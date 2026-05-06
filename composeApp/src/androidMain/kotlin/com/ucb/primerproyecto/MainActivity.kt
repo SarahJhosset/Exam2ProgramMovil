@@ -6,7 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.ucb.primerproyecto.di.getModules
 import com.ucb.primerproyecto.worker.LogScheduler
+import org.koin.compose.KoinApplication
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,5 +30,11 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 fun AppAndroidPreview() {
-    App()
+    // KoinApplication initializes Koin for the preview environment, 
+    // ensuring that koinViewModel() calls within App() can resolve dependencies.
+    KoinApplication(application = {
+        modules(getModules())
+    }) {
+        App()
+    }
 }

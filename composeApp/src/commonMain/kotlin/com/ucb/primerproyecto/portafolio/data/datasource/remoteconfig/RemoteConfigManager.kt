@@ -9,4 +9,8 @@ expect class RemoteConfigManager() {
     fun isDepositEnabled(): Boolean
 
     fun getMinVersion(): String
+
+    fun getSyncIntervalMinutes(): Long
+
+    fun getMaxLocalRecords(): Long
 }

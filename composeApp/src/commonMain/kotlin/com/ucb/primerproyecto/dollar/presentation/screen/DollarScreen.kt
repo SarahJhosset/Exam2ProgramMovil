@@ -20,9 +20,15 @@ fun DollarScreen(
     if(state.value.isLoading) {
         CircularProgressIndicator()
     } else {
-        Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
-            Text("Cantidad de Registros ${state.value.list.size}")
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text("📦 Registros en Room: ${state.value.list.size}")
+
+            state.value.list.forEach { dollar ->
+                Text("• Oficial: ${dollar.dollarOfficial} | Paralelo: ${dollar.dollarParallel}")
+            }
         }
     }
-
 }

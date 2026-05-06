@@ -32,6 +32,31 @@ class LogScheduler(
                 logRequest
             )
         scheduleNocturnalBackup()
+
+        scheduleCacheCleanup()
+    }
+
+    private fun scheduleCacheCleanup() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val request = PeriodicWorkRequest.Builder(
+            CacheCleanupWorker::class.java,
+            15L,  // mínimo permitido por WorkManager
+            TimeUnit.MINUTES
+        )
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(context.applicationContext)
+            .enqueueUniquePeriodicWork(
+                "cacheCleanupWork",
+                ExistingPeriodicWorkPolicy.KEEP,
+                request
+            )
+
+        println("🧹 Cache cleanup programado")
     }
 
     private fun scheduleNocturnalBackup() {
