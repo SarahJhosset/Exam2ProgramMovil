@@ -46,7 +46,7 @@ import org.koin.compose.koinInject
 import com.ucb.primerproyecto.dollar.domain.usecase.GetDollarListUsecase
 
 @Composable
-fun DebugScreen() {
+actual fun DebugScreen() {
     val context = LocalContext.current
     val scope   = rememberCoroutineScope()
     val getDollars: GetDollarListUsecase = koinInject()

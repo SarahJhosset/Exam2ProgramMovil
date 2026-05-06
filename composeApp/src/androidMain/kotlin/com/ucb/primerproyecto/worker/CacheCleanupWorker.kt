@@ -9,6 +9,7 @@ import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.ucb.primerproyecto.core.data.db.AppDatabase
+import com.ucb.primerproyecto.dollar.data.dao.DollarDao
 import com.ucb.primerproyecto.dollar.data.entity.DollarEntity
 import com.ucb.primerproyecto.portafolio.data.datasource.remoteconfig.RemoteConfigManager
 import org.koin.core.component.KoinComponent
@@ -20,7 +21,7 @@ class CacheCleanupWorker(
     params: WorkerParameters
 ) : CoroutineWorker(appContext, params), KoinComponent {
 
-    private val db: AppDatabase by inject()
+    private val dollarDao: DollarDao by inject()
 
     companion object {
         private const val TAG = "CacheCleanupWorker"
@@ -32,66 +33,45 @@ class CacheCleanupWorker(
         Log.d(TAG, "🧹 Iniciando limpieza de caché...")
 
         return try {
-            val dao = db.getDao()
-
-
-            dao.insert(DollarEntity(dollarOfficial = "6.96", dollarParallel = "9.96", timestamp = System.currentTimeMillis() - 5000))
-            dao.insert(DollarEntity(dollarOfficial = "7.00", dollarParallel = "10.00", timestamp = System.currentTimeMillis() - 4000))
-            dao.insert(DollarEntity(dollarOfficial = "7.50", dollarParallel = "10.50", timestamp = System.currentTimeMillis() - 3000))
-            dao.insert(DollarEntity(dollarOfficial = "7.80", dollarParallel = "10.80", timestamp = System.currentTimeMillis() - 2000))
-            dao.insert(DollarEntity(dollarOfficial = "8.00", dollarParallel = "11.00", timestamp = System.currentTimeMillis() - 1000))
-            dao.insert(DollarEntity(dollarOfficial = "7.80", dollarParallel = "10.80", timestamp = System.currentTimeMillis() - 5000))
-            dao.insert(DollarEntity(dollarOfficial = "8.00", dollarParallel = "11.00", timestamp = System.currentTimeMillis() - 3500))
-            Log.d(TAG, "📝 7 registros de prueba insertados")
-
-
-            // 1. Leer límite desde Remote Config
-            // ✅ CÓDIGO NUEVO — espera correctamente el callback
+            // 1. Lee límite desde Remote Config
             val remoteConfig = RemoteConfigManager()
             val maxRecords = kotlinx.coroutines.suspendCancellableCoroutine<Long> { continuation ->
                 remoteConfig.fetchConfig { success ->
-                    val value = if (success) {
-                        remoteConfig.getMaxLocalRecords()
-                    } else {
-                        10L
-                    }
-                    Log.d(TAG, "✅ Remote Config cargado: max=$value")
+                    val value = if (success) remoteConfig.getMaxLocalRecords() else 10L
+                    Log.d(TAG, "✅ Remote Config: max=$value")
                     continuation.resume(value)
                 }
             }
 
-            // 2. Contar registros actuales
-            val currentCount = dao.count()
-            Log.d(TAG, "📊 Registros actuales: $currentCount / máximo: $maxRecords")
+            // 2. Cuenta registros actuales
+            val currentCount = dollarDao.count()
+            Log.d(TAG, "📊 Registros: $currentCount / máximo: $maxRecords")
 
             if (currentCount <= maxRecords) {
                 Log.d(TAG, "✅ No se necesita limpieza")
                 showNotification(
                     title = "Caché en orden",
-                    body = "Tienes $currentCount registros (límite: $maxRecords). No se eliminó nada."
+                    body  = "Tienes $currentCount registros (límite: $maxRecords)"
                 )
                 return Result.success()
             }
 
-            // 3. Calcular cuántos borrar
+            // 3. Elimina los más antiguos
             val toDelete = currentCount - maxRecords.toInt()
-            Log.d(TAG, "🗑️ Borrando $toDelete registros más antiguos...")
+            dollarDao.deleteOldest(toDelete)
 
-            dao.deleteOldest(toDelete)
+            val remaining = dollarDao.count()
+            Log.d(TAG, "✅ Limpieza: eliminados $toDelete, quedan $remaining")
 
-            val remaining = dao.count()
-            Log.d(TAG, "✅ Limpieza completada. Quedan $remaining registros")
-
-            // 4. Notificación de resumen
             showNotification(
                 title = "Limpieza completada",
-                body = "Se eliminaron $toDelete registros antiguos. Quedan $remaining de $maxRecords permitidos."
+                body  = "Se eliminaron $toDelete registros. Quedan $remaining de $maxRecords."
             )
 
             Result.success()
 
         } catch (e: Exception) {
-            Log.e(TAG, "❌ Error en limpieza: ${e.message}")
+            Log.e(TAG, "❌ Error: ${e.message}")
             Result.failure()
         }
     }

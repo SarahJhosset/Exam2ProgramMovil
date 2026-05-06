@@ -10,58 +10,50 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.ucb.primerproyecto.deposit.presentation.screen.DepositScreen
-import com.ucb.primerproyecto.deposit.presentation.viewmodel.DepositViewModel
 import com.ucb.primerproyecto.portafolio.presentation.screen.PortafolioScreen
 import com.ucb.primerproyecto.dollar.presentation.screen.DollarScreen
-import com.ucb.primerproyecto.movie.domain.model.MovieModel
 import com.ucb.primerproyecto.movie.presentation.screen.MovieScreen
+import com.ucb.primerproyecto.debug.DebugScreen
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun AppNavHost() {
+    val navController    = rememberNavController()
+    val snackbarHostState = remember { SnackbarHostState() }
 
-    val navController = rememberNavController()
-    val snackbarHostState = remember { SnackbarHostState() }//agregar para el manejo de errores
-
-    Scaffold(//manejo de errores
-        snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) {
+    Scaffold(snackbarHost = { SnackbarHost(snackbarHostState) }) {
         NavHost(navController = navController, startDestination = NavRoute.Portafolio) {
-            composable<NavRoute.Profile> {
-            }
-            composable<NavRoute.ProfileEdit> {
-            }
+
+            composable<NavRoute.Profile> { }
+            composable<NavRoute.ProfileEdit> { }
+
             composable<NavRoute.Movies> {
                 MovieScreen(
-                    snackbarHostState = snackbarHostState,//manejo de errores
-                    navController = navController)
+                    snackbarHostState = snackbarHostState,
+                    navController     = navController
+                )
             }
-
             composable<NavRoute.Dollar> {
                 DollarScreen()
             }
-
             composable<NavRoute.Portafolio> {
-
                 PortafolioScreen(
                     snackbarHostState = snackbarHostState,
-                    viewModel = koinViewModel(),
-                    navController = navController
+                    viewModel         = koinViewModel(),
+                    navController     = navController
                 )
             }
             composable<NavRoute.Deposit> {
-
-                val viewModel: DepositViewModel = koinViewModel()
-
                 DepositScreen(
                     snackbarHostState = snackbarHostState,
-                    viewModel = viewModel,
-                    navController = navController
+                    viewModel         = koinViewModel(),
+                    navController     = navController
                 )
             }
 
+            composable<NavRoute.Debug> {
+                DebugScreen()
+            }
         }
     }
-
-
 }
