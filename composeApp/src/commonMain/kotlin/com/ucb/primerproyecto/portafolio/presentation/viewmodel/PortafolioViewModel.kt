@@ -102,6 +102,11 @@ class PortafolioViewModel(
                     _effect.emit(PortafolioEffect.NavigateToDebug)
                 }
             }
+            PortafolioEvent.OnDollarClick -> {
+                viewModelScope.launch {
+                    _effect.emit(PortafolioEffect.NavigateToDollar)
+                }
+            }
         }
 
     }

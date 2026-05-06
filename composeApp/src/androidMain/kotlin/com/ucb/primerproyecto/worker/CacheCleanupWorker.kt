@@ -21,6 +21,7 @@ class CacheCleanupWorker(
     params: WorkerParameters
 ) : CoroutineWorker(appContext, params), KoinComponent {
 
+    private val db: AppDatabase by inject()
     private val dollarDao: DollarDao by inject()
 
     companion object {
@@ -33,6 +34,23 @@ class CacheCleanupWorker(
         Log.d(TAG, "🧹 Iniciando limpieza de caché...")
 
         return try {
+
+            val dao = db.getDao()
+            dao.insertReplace(DollarEntity(dollarOfficial = "6.96", dollarParallel = "9.96", timestamp = System.currentTimeMillis() - 7000))
+            dao.insertReplace(DollarEntity(dollarOfficial = "7.00", dollarParallel = "10.00", timestamp = System.currentTimeMillis() - 6000))
+            dao.insertReplace(DollarEntity(dollarOfficial = "7.50", dollarParallel = "10.50", timestamp = System.currentTimeMillis() - 5000))
+            dao.insertReplace(DollarEntity(dollarOfficial = "7.80", dollarParallel = "10.80", timestamp = System.currentTimeMillis() - 4000))
+            dao.insertReplace(DollarEntity(dollarOfficial = "8.00", dollarParallel = "11.00", timestamp = System.currentTimeMillis() - 3000))
+            dao.insertReplace(DollarEntity(dollarOfficial = "7.80", dollarParallel = "10.80", timestamp = System.currentTimeMillis() - 2000))
+            dao.insertReplace(DollarEntity(dollarOfficial = "8.00", dollarParallel = "11.00", timestamp = System.currentTimeMillis() - 1000))
+            dao.insertReplace(DollarEntity(dollarOfficial = "7.80", dollarParallel = "10.80", timestamp = System.currentTimeMillis() - 8000))
+            dao.insertReplace(DollarEntity(dollarOfficial = "8.00", dollarParallel = "11.00", timestamp = System.currentTimeMillis() - 8800))
+            dao.insertReplace(DollarEntity(dollarOfficial = "7.80", dollarParallel = "10.80", timestamp = System.currentTimeMillis() - 6700))
+            dao.insertReplace(DollarEntity(dollarOfficial = "8.00", dollarParallel = "11.00", timestamp = System.currentTimeMillis() - 1100))
+            Log.d(TAG, "📝 11 registros de prueba insertados")
+            Log.d(TAG, "📊 Registros actuales: ${dao.count()}")
+
+
             // 1. Lee límite desde Remote Config
             val remoteConfig = RemoteConfigManager()
             val maxRecords = kotlinx.coroutines.suspendCancellableCoroutine<Long> { continuation ->

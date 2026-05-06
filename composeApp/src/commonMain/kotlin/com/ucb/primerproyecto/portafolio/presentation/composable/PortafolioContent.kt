@@ -94,6 +94,13 @@ fun PortafolioContent(
             Text("🔧 Panel de diagnóstico")
         }
 
+        OutlinedButton(
+            modifier = Modifier.fillMaxWidth(),
+            onClick  = { onEvent(PortafolioEvent.OnDollarClick) }
+        ) {
+            Text("📊 Ver datos Room (dólares)")
+        }
+
     }
 }
 

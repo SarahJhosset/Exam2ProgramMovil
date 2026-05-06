@@ -37,7 +37,11 @@ fun PortafolioScreen(
                 is PortafolioEffect.NavigateToDebug -> {
                     navController.navigate(NavRoute.Debug)
                 }
+                is PortafolioEffect.NavigateToDollar -> {
+                    navController.navigate(NavRoute.Dollar)
+                }
             }
+
         }
 
     }

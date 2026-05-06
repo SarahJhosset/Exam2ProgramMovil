@@ -23,6 +23,9 @@ interface DollarDao {
     @Query("SELECT COUNT(*) FROM dollars")
     suspend fun count(): Int
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertReplace(dollar: DollarEntity)
+
     // Borra los N registros más antiguos (menor timestamp = más antiguo)
     @Query("""
     DELETE FROM dollars 
